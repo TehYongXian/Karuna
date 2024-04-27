@@ -1,11 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import Auth from './components/Auth';
+import TodoList from './components/TodoList';
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState('');
+
+  const handleLogin = (token) => {
+    setAuthToken(token);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {isAuthenticated ? (
+        <TodoList authToken={authToken} />
+      ) : (
+        <Auth setIsAuthenticated={setIsAuthenticated} handleLogin={handleLogin} />
+      )}
     </View>
   );
 }
